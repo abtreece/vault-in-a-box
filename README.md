@@ -8,7 +8,6 @@ Requirements
 ------------
 
 -   [direnv](https://github.com/direnv/direnv)
-
 -   [docker](https://www.docker.com/get-docker) 
 
 Quick Start
@@ -24,7 +23,7 @@ direnv: using hashicorp vault 0.10.1
 direnv: export +LOCAL_IP +PROJECT_DIR +VAULT_ADDR ~PATH
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Bring the environemnt up with `docker-compose`
+Bring the environment up with `docker-compose`. Running in detached mode puts the sandbox in the background.
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 $ docker-compose up -d
@@ -32,7 +31,8 @@ Creating vault  ... done
 Creating consul ... done
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Initialize Vault with only 1 key. We're just tinkering here! A production environment should *minimally* utilize the default key share to threshold ratio of 5:3.
+Initialize Vault with only 1 key. We're just tinkering here!
+_A production environment should *minimally* utilize the default key share to threshold ratio of 5:3._
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 $ vault operator init -key-shares=1 -key-threshold=1`
