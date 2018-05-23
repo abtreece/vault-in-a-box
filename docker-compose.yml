@@ -9,7 +9,7 @@ consul:
     - "8500:8500"
     - "8600:8600/udp"
 vault:
-  container_name: vault.server
+  container_name: vault
   image: vault
   ports:
     - "8200:8200"
