@@ -4,21 +4,21 @@ consul:
   image: consul:latest
   volumes:
     - ./etc/consul/config:/consul/config
+    - ./etc/consul/data:/consul/data 
   ports:
     - "8300:8300"
     - "8500:8500"
     - "8600:8600/udp"
 vault:
   container_name: vault
-  image: vault
+  image: vault:latest
   ports:
     - "8200:8200"
   volumes:
-    - ./etc/vault/config:/mnt/vault/config
-    - ./etc/vault/data:/mnt/vault/data
-    - ./etc/vault/logs:/mnt/vault/logs
+    - ./etc/vault/config:/vault/config
+    - ./etc/vault/data:/vault/data
   cap_add:
     - IPC_LOCK
   environment:
-    - VAULT_LOCAL_CONFIG={"backend":{"consul":{"address":"${LOCAL_IP}:8500","advertise_addr":"http://${LOCAL_IP}", "path":"vault/"}},"listener":{"tcp":{"address":"0.0.0.0:8200","tls_disable":1}}}
+    - VAULT_LOCAL_CONFIG={"storage":{"consul":{"address":"${LOCAL_IP}:8500","advertise_addr":"http://${LOCAL_IP}","path":"vault/"}},"listener":{"tcp":{"address":"0.0.0.0:8200","tls_disable":1}}}
   command: server
