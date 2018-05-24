@@ -1,7 +1,7 @@
 vault-in-a-box
 ==============
 
-Provides a simple Docker environment for tinkering with Vault with Consul as the
+Provides a simple Docker environment for tinkering with Vault and utlizing Consul as the
 storage backend.
 
 Requirements
@@ -32,7 +32,8 @@ Creating consul ... done
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Initialize Vault with only 1 key. We're just tinkering here!
-_A production environment should *minimally* utilize the default key share to threshold ratio of 5:3._
+
+_A production environment should minimally utilize the default key share to threshold ratio of 5:3._
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 $ vault operator init -key-shares=1 -key-threshold=1`
