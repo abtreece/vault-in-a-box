@@ -1,24 +1,64 @@
-consul:
-  container_name: consul
-  command: agent -server -bind 0.0.0.0 -client 0.0.0.0 -bootstrap-expect=1
-  image: consul:latest
-  volumes:
-    - ./etc/consul/config:/consul/config
-    - ./etc/consul/data:/consul/data 
-  ports:
-    - "8300:8300"
-    - "8500:8500"
-    - "8600:8600/udp"
-vault:
-  container_name: vault
-  image: vault:latest
-  ports:
-    - "8200:8200"
-  volumes:
-    - ./etc/vault/config:/vault/config
-    - ./etc/vault/data:/vault/data
-  cap_add:
-    - IPC_LOCK
-  environment:
-    - VAULT_LOCAL_CONFIG={"storage":{"consul":{"address":"${LOCAL_IP}:8500","advertise_addr":"http://${LOCAL_IP}","path":"vault/"}},"listener":{"tcp":{"address":"0.0.0.0:8200","tls_disable":1}}}
-  command: server
+version: '3'
+
+services:
+
+  consul-server-0:
+    container_name: consul-0
+    image: consul:latest
+    networks:
+      - consul-net
+    ports:
+      - "8300:8300"
+      - "8500:8500"
+      - "8600:8600/udp"
+    command: "agent -server -bootstrap-expect 3 -ui -client 0.0.0.0"
+    volumes:
+      - ./etc/consul/config:/consul/config
+      - ./etc/consul/data/0:/consul/data
+
+  consul-server-1:
+    container_name: consul-1
+    image: consul:latest
+    networks:
+      - consul-net
+    ports:
+      - "8301:8300"
+      - "8501:8500"
+      - "8601:8600/udp"
+    command: "agent -server -retry-join consul-server-0 -client 0.0.0.0"
+    volumes:
+      - ./etc/consul/config:/consul/config
+      - ./etc/consul/data/1:/consul/data
+
+  consul-server-2:
+    container_name: consul-2
+    image: consul:latest
+    networks:
+      - consul-net
+    ports:
+      - "8302:8300"
+      - "8502:8500"
+      - "8602:8600/udp"
+    command: "agent -server -retry-join consul-server-0 -client 0.0.0.0"
+    volumes:
+      - ./etc/consul/config:/consul/config
+      - ./etc/consul/data/2:/consul/data
+
+  vault:
+    container_name: vault
+    image: vault:latest
+    networks:
+      - consul-net
+    ports:
+      - "8200:8200"
+    volumes:
+      - ./etc/vault/config:/vault/config
+      - ./etc/vault/data:/vault/data
+    cap_add:
+      - IPC_LOCK
+    environment:
+      - VAULT_LOCAL_CONFIG={"storage":{"consul":{"address":"${LOCAL_IP}:8500","advertise_addr":"http://${LOCAL_IP}","path":"vault/"}},"listener":{"tcp":{"address":"0.0.0.0:8200","tls_disable":1}}}
+    command: server
+
+networks:
+  consul-net:
