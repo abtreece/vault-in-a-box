@@ -36,7 +36,7 @@ Initialize Vault with only 1 key. We're just tinkering here!
 _A production environment should minimally utilize the default key share to threshold ratio of 5:3._
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-$ vault operator init -key-shares=1 -key-threshold=1`
+$ vault operator init -key-shares=1 -key-threshold=1
 Unseal Key 1: /6CIyLXyZYJ1jIvfeWFL5CD/pKmuCuFaETelW86adPU=
 
 Initial Root Token: d7cb154b-c54b-dc63-d955-29ef7b79ad00
